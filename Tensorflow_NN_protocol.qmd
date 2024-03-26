@@ -35,7 +35,7 @@ o	Leaky ReLU: A modified ReLU that allows a small non-zero output for negative i
 Leaky ReLU is more stable than ReLU, especially when dealing with large gradients. In standard ReLU, neurons can become inactive (output zero) for negative inputs during training. Leaky ReLU addresses this by allowing a small non-zero output for negative inputs. The non-zero gradient for negative inputs helps prevent vanishing gradients during backpropagation.
 o	Sigmoid (Logistic): Maps input values to a range between 0 and 1 (defined as 1 / (1 + exp(-x))). Commonly used in binary classification problems.
 o	Tanh (Hyperbolic Tangent): Similar to sigmoid but maps inputs to a range between -1 and 1.
-o	Softmax: Converts a vector of values into a probability distribution. Elements of the output vector are in the range [0, 1] and sum to 1 (exp(x) / sum(exp(x)) for each vector element). Often used in the last layer of classification networks. Commonly used in multi-class classification problems.
+o	Softmax: Converts a vector of values into a probability distribution. Elements of the output vector are in the range [0, 1] and sum to 1 (exp(x) / sum(exp(x)) for each vector element). Often used in the last layer of classification networks and commonly used in multi-class classification problems.
 o	Linear: Simplest activation function. Maps input values as they are (f(x) = x). Commonly used in the output layer of a neural network, especially in regression tasks. 
 
 Szandała, T. (2021). Review and comparison of commonly used activation functions for deep neural networks. Bio-inspired neurocomputing, 203-224.
@@ -54,7 +54,13 @@ Number of dense layers
 
 (Arin)
 Dropout (XX) - designed to prevent overfitting, randomly drop out a proportion of neurons 
+Dropout is a form of regularization that aims to reduce overfitting by preventing complex co-adaptations on training data. It works by randomly disabling a portion of the neurons in the network during training, forcing the data to flow through different pathways, and thus, enhancing generalization. The key parameter of dropout is the dropout rate. It defines the probability of any given unit being dropped or set to zero during training. Typical values are between 0.2 and 0.5. Choosing the right rate is crucial for the model's performance and generalization capability. Integrate dropout layers in the neural network model after the activation layers of fully connected (Dense) layers or before the output layer. 
 
+```python
+from tensorflow.keras.layers import Dropout
+model.add(Dropout(rate=0.5)) # dropout rate is 0.5
+
+To tune the dropout layer, start with a moderate dropout rate (e.g., 0.3) and adjust based on validation set performance. If the network is overfitting, try increasing the dropout rate. If underfitting, consider lowering the dropout rate. Not all layers may require the same dropout rate. Experiment with different rates for different layers. Often, layers closer to the input will have a lower dropout rate than those closer to the output. Dropout is often used alongside other regularization techniques, such as L1/L2 regularization, and normalization layers like BatchNormalization. Combining these methods can lead to better generalization.
 
 
 # Model compilation
